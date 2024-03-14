@@ -1,8 +1,94 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div class="add-to-cart-modal">
+    <div class="add-to-cart-modal-text">
+        Añadido al carrito
+    </div>
+    <img src="./img/checkmark.svg" />
+</div>
+<header>
+    <div class="header-container">
+        <div class="header-text">
+            Exclusive
+        </div>
+        <div class="header-list">
+            <a href="#">
+                Home
+            </a>
+            <a href="#">
+                Contact
+            </a>
+            <a href="#">
+                About
+            </a>
+            <a href="#">
+                Sign Up
+            </a>
+        </div>
+        <div class="header-logo-list">
+            <input class="search-input" type="text" placeholder="What are you looking for?"/>
+            <a href="/cart">
+                <img src="./img/cart.svg" class="header-svg"/>
+            </a>
+            <a href="/favorite">
+                <img src="./img/favorite.svg" class="header-svg"/>
+            </a>
+        </div>
+    </div>
+</header>
+<div class="bottom-header-container">
+    <ul>
+        <li class="header-list-option">
+            Woman´s Fashion
+            <div>
+                >
+            </div>
+        </li>
+        <li class="header-list-option">
+            Man´s Fashion
+            <div>
+                >
+            </div>
+        </li>
+        <li>
+            Electronics
+        </li>
+        <li>
+            Home & Freestyle
+        </li>
+        <li>
+            Medicine
+        </li>
+        <li>
+            Sports & Outdoor
+        </li>
+    </ul>
+    <div class="bottom-header-photo">
+        <img src="./img/image-1.png"/>
+    </div>
+</div>
+<div class="category-header">
+    <div class="category-title">
+        <div class="section-square"></div>
+        <h1>Today´s</h1>
+    </div>
+    <h1>Flash Sales</h1>
+</div>
+<div id="section-flashSales" class="container-products">
+</div>
+<div class="flashSales-button">
+    <div class="global-button">
+        View All Products
+    </div>
+</div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="category-header">
+    <div class="category-title">
+        <div class="section-square"></div>
+        <h1>Categories</h1>
+    </div>
+    <h1>Browse By Category</h1>
+</div>
+<div id="section-browseByCategory" class="container-browse">
 </div>
