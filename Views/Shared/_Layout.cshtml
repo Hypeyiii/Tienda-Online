@@ -1,28 +1,90 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Tienda_Online</title>
+    <title>Tienda Online</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Tienda_Online.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <div class="top-container">
         Summer Sales For All Swim Suits - 50% Off - Free Shipping <span>Shop Now</span>
     </div>
+    <header>
+        <div class="header-container">
+            <div class="header-text">
+                Exclusive
+            </div>
+            <div class="header-list">
+                <a href="/">
+                    Home
+                </a>
+                <a href="#">
+                    Contact
+                </a>
+                <a href="#">
+                    About
+                </a>
+                <a href="#">
+                    Sign Up
+                </a>
+            </div>
+            <div class="header-logo-list">
+                <input class="search-input" type="text" placeholder="What are you looking for?" />
+                <a asp-controller="Home" asp-action="Cart">
+                    <img src="../img/cart.svg" class="header-svg" />
+                </a>
+                <a href="/favorite">
+                    <img src="../img/favorite.svg" class="header-svg" />
+                </a>
+            </div>
+        </div>
+    </header>
     <div>
         <main role="main">
             @RenderBody()
         </main>
     </div>
+    <footer>
+        <div class="item-footer">
+            <h1>Exclusive</h1>
+            <h2>Subscribe</h2>
+            <h3>Get 10% off your first order</h3>
+        </div>
+        <div class="item-footer">
+            <h2>Support</h2>
+            <h3>111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.</h3>
+            <h3>exclusive@gmail.com</h3>
+            <h3>+88015-88888-9999</h3>
+        </div>
+        <div class="item-footer">
+            <h2>Account</h2>
+            <h3>My Account</h3>
+            <h3>Login / Register</h3>
+            <h3>Cart</h3>
+            <h3>Wishlist</h3>
+            <h3>Shop</h3>
+        </div>
+        <div class="item-footer">
+            <h2>Quick Link</h2>
+            <h3>Privacy Policity</h3>
+            <h3>Terms of Use</h3>
+            <h3>FAQ</h3>
+            <h3>Contact</h3>
+        </div>
+        <div class="item-footer">
+            <h2>Download App</h2>
+        </div>
+        <div class="copyright">
+            <h1>© Copyright Tienda Online 2024. All right reserved</h1>
+        </div>
+    </footer>
 
-    
-    <script src="../Products/Products.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="../js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
