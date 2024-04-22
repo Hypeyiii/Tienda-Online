@@ -152,15 +152,15 @@ const category = [
 function showFlashSales() {
   const flashSales = products.filter(
     (product) => product.category === "flash-sales"
-  );
-  document.getElementById("section-flashSales").innerHTML = flashSales
+    );
+    document.getElementById("section-flashSales").innerHTML = flashSales
     .map((product) => {
       let priceWithDiscount = Math.floor(
         product.price - (product.price * product.disscountPercentage) / 100
       );
       return `<div class="product">
             <div class="image-product-container" onmouseenter="showAddToCart(this)" onmouseleave="hideAddToCart(this)">
-                <img class="product-image" src="./img/product-${product.id}.png" title="Producto de nuestra tienda ${product.name}" alt="Imagen ${product.name}">
+                <a href="/Home/ProductDetails"><img class="product-image" src="./img/product-${product.id}.png" title="Producto de nuestra tienda ${product.name}" alt="Imagen ${product.name}"></a>
                 <div class="disscount-container">
                     <p class="disscount-text">-${product.disscountPercentage}%</p>
                 </div>
@@ -177,7 +177,6 @@ function showFlashSales() {
             </div>
         </div>`;
     })
-    .join("");
 }
 console.log(showFlashSales());
 function showAddToCart(element) {
@@ -210,7 +209,7 @@ function showBestSelling() {
       );
       return `<div class="product">
                 <div class="image-product-container" onmouseenter="showAddToCart(this)" onmouseleave="hideAddToCart(this)">
-                    <img class:"product-image" src="./img/product-${product.id}.png" title="Producto de nuestra tienda ${product.name}" alt="Imagen ${product.name}">
+                    <img class="product-image" src="./img/product-${product.id}.png" title="Producto de nuestra tienda ${product.name}" alt="Imagen ${product.name}">
                     <div class="disscount-container">
                         <p class="disscount-text">-${product.disscountPercentage}%</p>
                     </div>

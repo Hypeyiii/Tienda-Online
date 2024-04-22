@@ -46,9 +46,9 @@ header {
 }
 .header-logo-list {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 .header-text {
   color: black;
@@ -84,13 +84,16 @@ header {
   border-radius: 5px;
 }
 .header-svg {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   transition: ease-in-out 0.1s;
+  padding: 3px;
 }
 .header-svg:hover {
   transform: scale(1.1);
   cursor: pointer;
+  background-color: #db4444;
+  border-radius: 999px;   
 }
 .container-products {
   display: grid;
@@ -612,8 +615,8 @@ footer {
   width: 85%;
   margin: auto;
   padding: 10px;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   align-content: center;
   justify-content: start;
   gap: 10px;
@@ -775,8 +778,7 @@ footer {
     height: 780px;
     margin: auto;
     gap: 100px;
-    padding: 20px;
-    margin-top: 50px;
+    padding: 10px;
     margin-bottom: 100px;
 }
 
