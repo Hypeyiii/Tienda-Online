@@ -22,11 +22,26 @@ namespace Tienda_Online.Controllers
         {
             return View();
         }
-        public IActionResult Privacy()
+        public IActionResult Cart()
         {
             return View();
         }
-        public IActionResult Cart()
+        public IActionResult Wishlist()
+        {
+            return View();
+        }
+        public IActionResult ProductDetails()
+        {
+            return View();
+        }
+        public IActionResult Account() {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        public IActionResult AboutUs()
         {
             return View();
         }
