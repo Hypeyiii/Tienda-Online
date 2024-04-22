@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData ["Title"] = "LogIn";
+}
+<style>
+    .button-container{
+        display: flex;
+        display-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .forgot-password-text{
+        color: #Db4444;
+        text-decoration: none;
+    }
+</style>
+<section class="section-register">
+    <img src="/img//sing-up.png" alt="Alternate Text" class="register-image" />
+    <div class="sing-up-form">
+        <h1 class="sing-up-title">Log in to exclusive</h1>
+        <p>Enter your details below</p>
+        <form class="sing-up-form" method="post">
+            <div class="form-group">
+                <input type="text" id="email" name="email" class="form-control"
+                       placeholder="Email" required />
+            </div>
+            <div class="form-group">
+                <input type="password" id="name" name="password" class="form-control"
+                       placeholder="Password" required />
+            </div>
+           <div class="button-container">
+                <button type="submit" class="global-button">Log In</button>
+                <a class="forgot-password-text">Forgot password?</a>
+           </div>
+        </form>
+    </div>
+</section>

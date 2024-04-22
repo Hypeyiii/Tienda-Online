@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using Tienda_Online.Models;
 
 namespace Tienda_Online.Controllers
@@ -17,12 +18,19 @@ namespace Tienda_Online.Controllers
         {
             return View();
         }
-
+        public IActionResult LogIn()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
         }
         public IActionResult Cart()
+        {
+            return View();
+        }
+        public IActionResult SingUp()
         {
             return View();
         }
