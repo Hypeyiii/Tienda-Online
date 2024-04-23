@@ -160,7 +160,7 @@ function showFlashSales() {
       );
       return `<div class="product">
             <div class="image-product-container" onmouseenter="showAddToCart(this)" onmouseleave="hideAddToCart(this)">
-                <a href="/Home/ProductDetails"><img class="product-image" src="./img/product-${product.id}.png" title="Producto de nuestra tienda ${product.name}" alt="Imagen ${product.name}"></a>
+                <a href="/Home/ProductDetails"><img class="product-image" src="../img/product-${product.id}.png" title="Producto de nuestra tienda ${product.name}" alt="Imagen ${product.name}"></a>
                 <div class="disscount-container">
                     <p class="disscount-text">-${product.disscountPercentage}%</p>
                 </div>
@@ -177,6 +177,7 @@ function showFlashSales() {
             </div>
         </div>`;
     })
+    .join("")
 }
 console.log(showFlashSales());
 function showAddToCart(element) {
@@ -252,17 +253,13 @@ function showOurProducts() {
     .join("");
 }
 console.log(showOurProducts());
-
-const allProducts = [];
-const countProducts = 0;
-let total = 0;
 function addToCart(productId) {
     const product = products.find((item) => item.id === productId);
     const cartItems = document.getElementById("cart-items");
     const existingProduct = cartItems.querySelector(
         `.cart-container[data-id="${productId}"]`
     );
-    let priceWithDiscount = Math.floor(
+    const priceWithDiscount = Math.floor(
         product.price - (product.price * product.disscountPercentage) / 100
     );
     if (existingProduct) {
@@ -275,10 +272,12 @@ function addToCart(productId) {
         cartItems.innerHTML += `
         <div class="cart-container" data-id="${productId}">
             <div class="cart-product-image">
-                <img src="./img/product-${product.id}.png" class="cart-image"/>
+                <img src="../img/product-${product.id}.png" class="cart-image"/>
                 ${product.name}
                 <div class="delete-button" onclick="removeItem(${productId})">
-                   x
+                   <button>
+                    <img src="../img/delete.svg"/>
+                   </button>
                 </div>
             </div>
             <div>
@@ -287,8 +286,8 @@ function addToCart(productId) {
             <div class="cart-quantity">
                 <h1 class="quantity">${product.quantity}</h1>
                 <div class="quantity-buttons">
-                    <img src="./img/arrow-up.svg" class="quantity-button" onclick="addQuantity(${product.id})"/>
-                    <img src="./img/arrow-down.svg" class="quantity-button" onclick="removeQuantity(${product.id})"/>
+                    <img src="../img/arrow-up.svg" class="quantity-button" onclick="addQuantity(${product.id})"/>
+                    <img src="../img/arrow-down.svg" class="quantity-button" onclick="removeQuantity(${product.id})"/>
                 </div>
             </div>
             <div>
@@ -296,15 +295,11 @@ function addToCart(productId) {
             </div>
         </div>
         `;
-
-        // Guardar en localStorage
+        updateTotal()
         saveCartToLocalStorage();
-        console.log(localStorage.getItem("cartItems"))
     }
+    console.log(product);
 }
-
-console.log(addToCart())
-
 // Función para guardar el carrito en localStorage
 function saveCartToLocalStorage() {
     const cartItems = document.getElementById("cart-items").innerHTML;
@@ -380,10 +375,12 @@ function updateTotal() {
     const priceElement = cartProduct.querySelector(".price");
     const priceText = priceElement.textContent;
     const price = parseFloat(priceText.replace("$", ""));
-    total += price;
+      total += price;
+      const subtotalElement = document.querySelector("#subtotal");
+      subtotalElement.textContent = `$${total}.00`;
+      const totalElement = document.querySelector("#total");
+      totalElement.textContent = `$${total}.00`;
   });
-  const totalElement = document.getElementById("total");
-  totalElement.textContent = `Total a pagar: $${total}.00`; // Mostrar el total en la interfaz
 }
 function removeItem(productId) {
   const product = products.find((item) => item.id === productId);
@@ -398,6 +395,7 @@ function removeItem(productId) {
     }
   }
 }
+console.log(upateTotal());
 function deleteCart () {
   const cartItems = document.getElementById("cart-items");
   cartItems.innerHTML = '';
