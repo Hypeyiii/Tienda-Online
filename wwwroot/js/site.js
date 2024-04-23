@@ -296,40 +296,9 @@ function addToCart(productId) {
         </div>
         `;
         updateTotal()
-        saveCartToLocalStorage();
     }
     console.log(product);
 }
-// Función para guardar el carrito en localStorage
-function saveCartToLocalStorage() {
-    const cartItems = document.getElementById("cart-items").innerHTML;
-    localStorage.setItem("cartItems", cartItems);
-}
-console.log(saveCartToLocalStorage())
-
-// Cargar el carrito desde localStorage al cargar la página
-window.onload = function () {
-    const cartItems = localStorage.getItem("cartItems");
-    if (cartItems) {
-        document.getElementById("cart-items").innerHTML = cartItems;
-    }
-}
-
-  updateTotal();
-  document.querySelector(".add-to-cart-modal").style.display = "flex";
-  document.querySelector(".add-to-cart-modal").classList.add("slide-in-left");
-  document
-    .querySelector(".add-to-cart-modal")
-    .classList.remove("slide-out-left");
-
-  setTimeout(function () {
-    document
-      .querySelector(".add-to-cart-modal")
-      .classList.add("slide-out-left");
-    document
-      .querySelector(".add-to-cart-modal")
-      .classList.remove("slide-in-left");
-  }, 2000);
 
 function addQuantity(productId) {
   const product = products.find((item) => item.id === productId);
