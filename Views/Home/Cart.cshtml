@@ -20,6 +20,39 @@
         <h1>Total</h1>
      </div>
 </div>
-<div id="cart-items" class="cart-container">
+<div id="cart-items" class="">
 </div>
-<script src="../js/site.js"></script>
+<div class="cart-footer" >
+    <div class="cart-button-section">
+        <a href="/" class="second-button">
+            Return To Shop
+        </a>
+        <button class="second-button">
+            Update Cart
+        </button>
+    </div>
+    <div class="cart-total-section" >
+        <h6>Cart total</h6>
+        <div class="total-list">
+            <p>Subtotal:</p>
+            <p id="subtotal"></p>
+        </div>
+        <div class="total-list">
+            <p>Shipping:</p>
+            <p>FREE</p>
+        </div>
+        <div class="total-list">
+            <p>Total:</p>
+            <p id="total"></p>
+        </div>
+        <a href="/Home/Checkout" class="global-button">
+            Proceed to checkout
+        </a>
+    </div>
+</div>
+<div id="section-flashSales" class="container-products">
+</div>
+@section scripts {
+    <script src="~/js/site.js"></script>
+}
+```
