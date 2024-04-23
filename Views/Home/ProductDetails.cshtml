@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     ViewData["Title"] = "Producto";
 }
 <style>
@@ -19,7 +16,7 @@
     <a>/</a>
     <a class="page-text">Havic HV G-92 Gamepad</a>
 </div>
-<div class="product-details">
+<section class="product-details">
     <div class="product-side-images-container">
         <div class="product-view-images-container">
             <img src="/img/GamePad-2.png"/>
@@ -66,7 +63,7 @@
                 </button>
             </div>
             <button class="global-button" onclick="addToCart()">
-                Add To Cart
+                Cart
             </button>
             <button class="fav-button">
                 <img src="~/img/favorite.svg"/>
@@ -92,6 +89,30 @@
                     <p>Free 30 Days Delivery Returns. Details</p
                 </div>
             </div>
+    </div>
+</section>
+<div class="category-header">
+    <div class="category-title">
+        <div class="section-square"></div>
+        <h1>Today´s</h1>
+    </div>
+    <div class="section-title-container">
+        <h1>Flash Sales</h1>
+        <div class="left-right-arrows">
+            <div>
+                <img src="./img/left-arrow.svg" />
+            </div>
+            <div>
+                <img src="./img/right-arrow.svg" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="section-flashSales" class="container-products">
+</div>
+<div class="flashSales-button">
+    <div class="global-button">
+        View All Products
     </div>
 </div>
 <script src="~/js/site.js"></script>
