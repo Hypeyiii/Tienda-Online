@@ -13,7 +13,6 @@ namespace Tienda_Online.Controllers
         {
             _logger = logger;
         }
-
         public IActionResult Index()
         {
             return View();
