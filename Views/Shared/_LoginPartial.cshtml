@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Tienda_Online.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <a asp-controller="Account" asp-action="Logout">
+        Log out
+    </a>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Register">
+        Register
+    </a>
+}
+

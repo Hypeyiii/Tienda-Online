@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Tienda_Online.Models
+{
+    public class Order
+    {
+        [Key]
+        [Required]
+        public int IdOrder { get; set; }
+
+        [Required]
+
+        public int IdProduct { get; set; }
+
+        [ForeignKey("IdProduct")]
+        public Product Product { get; set; } = null!;
+
+        [Required]
+        [ForeignKey("User")]
+        public string? UserID { get; set; }
+
+        public ApplicationUser? User { get; set; }
+
+        public int Quantity { get; set; }
+        public decimal Total { get; set; }
+
+        [Required]
+        public string? State { get; set; }
+
+        public Location? Location { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; } = DateTime.Now;
+
+        public ICollection<Order_Details> OrderDetails { get; set; } = new List<Order_Details>();
+    }
+}

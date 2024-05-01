@@ -180,12 +180,6 @@ function showFlashSales() {
     .join("")
 }
 console.log(showFlashSales());
-function showAddToCart(element) {
-  element.querySelector(".add-to-cart-container").style.display = "flex";
-}
-function hideAddToCart(element) {
-  element.querySelector(".add-to-cart-container").style.display = "none";
-}
 function broseByCategory() {
   document.getElementById("section-browseByCategory").innerHTML = category
     .map((category) => {

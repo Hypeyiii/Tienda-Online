@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using Tienda_Online.Models;
+using Tienda_Online.Services;
 
 namespace Tienda_Online.Controllers
 {
@@ -17,14 +18,17 @@ namespace Tienda_Online.Controllers
         {
             return View();
         }
+
         public IActionResult LogIn()
         {
             return View();
         }
+        [Authorize]
         public IActionResult Cart()
         {
             return View();
         }
+        [Authorize]
         public IActionResult Wishlist()
         {
             return View();
@@ -33,6 +37,8 @@ namespace Tienda_Online.Controllers
         {
             return View();
         }
+
+        [Authorize]
         public IActionResult Account() {
             return View();
         }

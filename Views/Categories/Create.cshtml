@@ -1,0 +1,39 @@
+@model Tienda_Online.Models.Category
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="section-page">
+    <a href="/" class="home-text">Home</a>
+    <a>/</a>
+    <a class="page-text">Category-Create</a>
+</div>
+<div class="page">
+    <h4>Category</h4>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CategoryName" class="control-label"></label>
+                    <input asp-for="CategoryName" class="form-control" />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryDescription" class="control-label"></label>
+                    <input asp-for="CategoryDescription" class="form-control" />
+                    <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+                </div>
+                <div class="group-button">
+                    <input type="submit" value="Create" class="global-button" />
+                     <a asp-action="Index" class="global-button">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

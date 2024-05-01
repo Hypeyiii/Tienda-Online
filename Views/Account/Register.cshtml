@@ -1,0 +1,81 @@
+﻿@using Tienda_Online.ViewModels
+@model RegisterVM
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    .button-container {
+        display: flex;
+        display-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .forgot-password-text {
+        color: #db4444;
+        text-decoration: none;
+    }
+</style>
+
+<div class="section-page">
+    <a href="/" class="home-text">Home</a>
+    <a>/</a>
+    <a class="page-text">Register</a>
+</div>
+
+<section class="section-register">
+    <img src="/img/sing-up.png" alt="Alternate Text" class="register-image" />
+    <div class="sing-up-form">
+        <h1 class="sing-up-title">Register in to exclusive</h1>
+        <p>Enter your details below</p>
+        <form asp-action="Register" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]" class="sing-up-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="FirstName" class="form-control" placeholder="Nombre"/>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="LastName" class="form-control" placeholder="Apellidos" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Name" class="form-control" placeholder="Nombre de usuario"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Email" class="form-control" placeholder="example@email.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Address" class="form-control" placeholder="Dirección" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="City" class="form-control" placeholder="Ciudad" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" class="form-control" placeholder="Password"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password"/>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="button-container">
+                    <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text-decoration-none float-start mt-2">Already have an account?</a>
+                    <input type="submit" value="Register" class="global-button"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

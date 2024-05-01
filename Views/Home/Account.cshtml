@@ -1,11 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     ViewData["Title"] = "Account";
 }
-<div class="section-page">
-    <a href="/" class="home-text">Home</a>
-    <a>/</a>
-    <a class="page-text">Account</a>
+<style>
+    .account-section{
+        width: 85%;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .user{
+        color: #DF4444;
+    }
+</style>
+<div class="account-section">
+    <div class="section-page">
+        <a href="/" class="home-text">Home</a>
+        <a>/</a>
+        <a class="page-text">Account</a>
+    </div>
+    <div>
+        Welcome! <span class="user">@User.Identity.Name</span>
+    </div>
 </div>
+<section class="about-us">
+    <a asp-controller="Account" asp-action="Logout" class="global-button">
+        Log out
+    </a>
+</section>
