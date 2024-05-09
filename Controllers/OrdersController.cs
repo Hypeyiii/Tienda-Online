@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +18,7 @@ namespace Tienda_Online.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.User);
+            var applicationDbContext = _context.Orders.Include(o => o.Product).Include(o => o.User);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,6 +31,7 @@ namespace Tienda_Online.Controllers
             }
 
             var order = await _context.Orders
+                .Include(o => o.Product)
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.IdOrder == id);
             if (order == null)
@@ -48,7 +45,8 @@ namespace Tienda_Online.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.User, "Id", "Id");
+            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription");
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address");
             return View();
         }
 
@@ -57,7 +55,7 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdOrder,IdProduct,UserID,Quantity,Total,State,OrderDateTime")] Order order)
+        public async Task<IActionResult> Create([Bind("IdOrder,IdProduct,UserID,Quantity,Total,State")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +63,8 @@ namespace Tienda_Online.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.User, "Id", "Id", order.UserID);
+            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription", order.IdProduct);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", order.UserID);
             return View(order);
         }
 
@@ -82,7 +81,8 @@ namespace Tienda_Online.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.User, "Id", "Id", order.UserID);
+            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription", order.IdProduct);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", order.UserID);
             return View(order);
         }
 
@@ -91,7 +91,7 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdOrder,IdProduct,UserID,Quantity,Total,State,OrderDateTime")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("IdOrder,IdProduct,UserID,Quantity,Total,State")] Order order)
         {
             if (id != order.IdOrder)
             {
@@ -118,7 +118,8 @@ namespace Tienda_Online.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.User, "Id", "Id", order.UserID);
+            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription", order.IdProduct);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", order.UserID);
             return View(order);
         }
 
@@ -131,6 +132,7 @@ namespace Tienda_Online.Controllers
             }
 
             var order = await _context.Orders
+                .Include(o => o.Product)
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.IdOrder == id);
             if (order == null)

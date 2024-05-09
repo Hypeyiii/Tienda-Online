@@ -7,7 +7,7 @@ namespace Tienda_Online.Models
     {
         [Key]
         [Required]
-        public int IdAddress { get; set; }
+        public string IdAddress { get; set; } = null!;
 
         [Required(ErrorMessage = "El nombre de la dirección es obligatorio.")]
         public string? Address { get; set; }
@@ -22,11 +22,11 @@ namespace Tienda_Online.Models
         public string? PostalCode { get; set; }
 
         [Required]
-        [ForeignKey("User")]
-        public string UserID { get; set; } // Match the data type with IdentityUser's primary key
+        public int UserID { get; set; }
 
         [Required]
-        public ApplicationUser User { get; set; } = null!;
+        [ForeignKey("UserID")]
+        public User User { get; set; } = null!;
     }
 }
 

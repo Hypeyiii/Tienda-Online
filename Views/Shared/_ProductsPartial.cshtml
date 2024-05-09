@@ -1,0 +1,15 @@
+﻿<div class="container-products">
+    @foreach (var product in Model.Products)
+    {
+            <div class="product-card">
+                <div class="product-card-image">
+                    <img src="~/img/product-@product.ProductImage" />
+                </div>
+                <div class="product-card-info">
+                    <h1>@product.ProductName</h1>
+                    <p>@product.ProductDescription</p>
+                    <h2>$@product.ProductPrice</h2>
+                </div>
+            </div>
+    }
+</div>

@@ -1,0 +1,45 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Products By Category";
+}
+
+<div class="section-page">
+    <a href="/" class="home-text">Home</a>
+    <a>/</a>
+    <a class="home-text">@ViewBag.CategoryName</a>
+</div>
+<section class="products-container">
+    @foreach (var product in Model)
+    {
+        <div class="product">
+            <div class="product-container">
+                <div class="product-image-container">
+                    <a href="@Url.Action("ProductDetails" , "Home", new {id = product.IdProduct})">
+                        <img class="product-image" src='~/img/product-@product.ProductImage'
+                            title="Producto de nuestra tienda @product.ProductName"
+                            alt="Imagen de producto @product.ProductName">
+                    </a>
+                </div>
+                @if (product.Stock == 0)
+                {
+                    <div class="no-stock-container" style="background-color: red; cursor: not-allowed;">
+                        Out of stock
+                    </div>
+                }
+                else
+                {
+                    <form action="@Url.Action("AddProductIndex")" class="add-to-cart-container">
+                        <input type="hidden" name="id" value="@product.IdProduct" />
+                        <input style="display: none;" type="number" name="quantity" value="1" min="1" max="@product.Stock">
+                        <button type="submit" class="default-button">Add To Cart</button>
+                    </form>
+                }
+            </div>
+            <div class="info">
+                <h3 class="product-name">@product.ProductName</h3>
+                <div class="price-container">
+                    <h6 class="product-price">$@product.ProductPrice MX</h6>
+                </div>
+            </div>
+        </div>
+    }

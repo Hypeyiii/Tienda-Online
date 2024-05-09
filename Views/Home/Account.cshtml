@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Tienda_Online.Models.User
+
+@{
     ViewData["Title"] = "Account";
 }
 <style>
@@ -23,6 +25,7 @@
     </div>
     <div>
         Welcome! <span class="user">@User.Identity.Name</span>
+        <h1>@Html.DisplayFor(model => model.FirstName)</h1>
     </div>
 </div>
 <section class="about-us">

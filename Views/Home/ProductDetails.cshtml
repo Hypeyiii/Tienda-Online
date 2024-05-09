@@ -1,73 +1,80 @@
-﻿@{
-    ViewData["Title"] = "Producto";
+﻿@model Product
+@{
+    ViewData["Title"] = "Product Details";
 }
 <style>
-    .actions-container{
+    .actions-container {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         height: fit-content;
+    }
+    .out-of-stock {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        cursor: not-allowed;
+        width: 100%;
+        text-align: center;
     }
 </style>
 
 <div class="section-page">
     <a href="/" class="home-text">Home</a>
     <a>/</a>
-    <a class="page-text">Havic HV G-92 Gamepad</a>
+    <a class="home-text">@Model.Category.CategoryName</a>
+    <a>/</a>
+    <a class="page-text">@Model.ProductName</a>
 </div>
 <section class="product-details">
-    <div class="product-side-images-container">
-        <div class="product-view-images-container">
-            <img src="/img/GamePad-2.png"/>
-        </div>
-        <div class="product-view-images-container">
-            <img src="/img/GamePad-3.png"/>
-        </div>
-        <div class="product-view-images-container">
-            <img src="/img/GamePad-4.png"/>
-        </div>
-        <div class="product-view-images-container">
-            <img src="/img/GamePad-5.png" />
-        </div>
-    </div>
     <div class="product-main-image-container">
-        <img src="/img/GamePad-1.png"/>
+        <img src='~/img/product-@Model.ProductImage' />
     </div>
     <div class="product-info">
-        <h3>Havic HV G-92 Gamepad</h3>
+        <h3>@Model.ProductName</h3>
         <div class="rate-text">
             <div class="stars-container">
                 <img src="~/img/star.svg" />
                 <img src="~/img/star.svg" />
-                <img src="~/img/star.svg"/>
-                <img src="~/img/star.svg"/>
+                <img src="~/img/star.svg" />
+                <img src="~/img/star.svg" />
                 <img src="~/img/star.svg" />
             </div>
             <p>(150 reviews)</p>
             <p>|</p>
-            <p class="stock-text" style="color:limegreen">In stock</p>
+            @if (Model.Stock == 0)
+            {
+                <p class="stock-text" style="color:red">Out of stock</p>
+            }
+            else
+            {
+                <p class="stock-text" style="color:limegreen">@Model.Stock In stock</p>
+            }
         </div>
-        <h5>192.00$</h5>
-        <p class="details-text">PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal Pressure sensitive.</p>
+        <h5>$@Model.ProductPrice MX</h5>
+        <p class="details-text">@Model.ProductDescription</p>
         <div id="" class="actions-container">
-            <div class="quantity-container">
-                <button class="button-quantity">
-                    -
+            @if(Model.Stock != 0)
+            {
+                <form action="@Url.Action("AddProductDetails")" method="post">
+                    <div class="cart-quantity-container">
+                        <input type="number" value="1" name="quantity" class="cart-quantity" min="1"
+                            max="@Model.Stock" />
+                        <button type="submit" class="cart-buttons">
+                            Add To Cart
+                        </button>
+                    </div>
+                    <input type="hidden" name="id" value="@Model.IdProduct" />
+                </form>
+            }
+            else{
+                <button class="out-of-stock" style="background-color: red; cursor: not-allowed;">
+                    Out of stock
                 </button>
-                <div class="text-quantity">
-                    2
-                </div>
-                <button class="button-quantity">
-                    +
-                </button>
-            </div>
-            <button class="global-button" onclick="addToCart()">
-                Cart
-            </button>
-            <button class="fav-button">
-                <img src="~/img/favorite.svg"/>
-            </button>
+            }
         </div>
         <div class="shipping-details">
             <div class="delivery-details">
@@ -76,43 +83,16 @@
                 </div>
                 <div class="text-shipping-container">
                     <h5>Free Delivery</h5>
-                    <p>Enter your postal code for Delivery Availability</p
+                    <p>Enter your postal code for Delivery Availability</p </div>
                 </div>
             </div>
-        </div>
-        <div class="return-details">
+            <div class="return-details">
                 <div class="shipping-image-container">
                     <img src="~/img/icon-return.svg" />
                 </div>
                 <div class="text-shipping-container">
                     <h5>Return Delivery</h5>
-                    <p>Free 30 Days Delivery Returns. Details</p
+                    <p>Free 30 Days Delivery Returns. Details</p </div>
                 </div>
             </div>
-    </div>
 </section>
-<div class="category-header">
-    <div class="category-title">
-        <div class="section-square"></div>
-        <h1>Today´s</h1>
-    </div>
-    <div class="section-title-container">
-        <h1>Flash Sales</h1>
-        <div class="left-right-arrows">
-            <div>
-                <img src="./img/left-arrow.svg" />
-            </div>
-            <div>
-                <img src="./img/right-arrow.svg" />
-            </div>
-        </div>
-    </div>
-</div>
-<div id="section-flashSales" class="container-products">
-</div>
-<div class="flashSales-button">
-    <div class="global-button">
-        View All Products
-    </div>
-</div>
-<script src="~/js/site.js"></script>

@@ -10,11 +10,11 @@ using Tienda_Online.Services;
 
 namespace Tienda_Online.Controllers
 {
-    public class OrderDetails : Controller
+    public class OrderDetailsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public OrderDetails(ApplicationDbContext context)
+        public OrderDetailsController(ApplicationDbContext context)
         {
             _context = context;
         }

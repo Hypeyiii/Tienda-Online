@@ -7,6 +7,9 @@ namespace Tienda_Online.Models
     {
         [Key]
         [Required]
+        public int OrderDetailsId { get; set; }
+
+        [Required]
         public int IdOrder { get; set; }
 
         [ForeignKey("IdOrder")]

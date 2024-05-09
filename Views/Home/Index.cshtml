@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Product>
+@{
     ViewData["Title"] = "Home Page";
 }
 <div class="bottom-header-container">
@@ -32,54 +33,67 @@
         <img src="./img/image-1.png" />
     </div>
 </div>
-<div class="category-header">
-    <div class="category-title">
-        <div class="section-square"></div>
-        <h1>Today´s</h1>
-    </div>
-    <div class="section-title-container">
-        <h1>Flash Sales</h1>
-        <div class="left-right-arrows">
-            <div>
-                <img src="./img/left-arrow.svg" />
-            </div>
-            <div>
-                <img src="./img/right-arrow.svg" />
-            </div>
-        </div>
-    </div>
-</div>
-<div id="section-flashSales" class="container-products">
-</div>
-<div class="flashSales-button">
-    <div class="global-button">
-        View All Products
-    </div>
-</div>
 
-<div class="category-header">
-    <div class="category-title">
-        <div class="section-square"></div>
-        <h1>Categories</h1>
-    </div>
-    <h1>Browse By Category</h1>
-</div>
-<div id="section-browseByCategory" class="container-browse">
-</div>
-<div class="category-header">
-    <div class="category-title">
-        <div class="section-square"></div>
-        <h1>This month</h1>
-    </div>
-    <div class="section-title-container">
-        <h1>Best Selling</h1>
-        <div class="global-button">
-            View All
+@foreach (var category in ViewBag.Categories)
+{
+    <div class="category-header" style="margin-top: 100px;">
+        <div class="category-title">
+            <div class="section-square"></div>
+            <h1>@category.CategoryDescription</h1>
+        </div>
+        <div class="section-title-container">
+            <h1>@category.CategoryName</h1>
+            <div class="left-right-arrows">
+                <div>
+                    <img src="./img/left-arrow.svg" />
+                </div>
+                <div>
+                    <img src="./img/right-arrow.svg" />
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div id="section-bestSelling" class="container-products">
-</div>
+    <div class="container-products">
+        @foreach (var product in Model)
+        {
+            if (product.IdCategory == category.IdCategory)
+            {
+                <div class="product">
+                    <div class="product-container">
+                        <div class="product-image-container">
+                            <a href="@Url.Action("ProductDetails" , "Home", new {id = product.IdProduct})">
+                                <img class="product-image" src='~/img/product-@product.ProductImage'
+                                    title="Producto de nuestra tienda @product.ProductName"
+                                    alt="Imagen de producto @product.ProductName">
+                            </a>
+                        </div>
+                        @if (product.Stock == 0)
+                        {
+                            <div class="no-stock-container" style="background-color: red; cursor: not-allowed;">
+                                Out of stock
+                            </div>
+                        }
+                        else
+                        {
+                            <form  action="@Url.Action("AddProductIndex")" class="add-to-cart-container">
+                                <input type="hidden" name="id" value="@product.IdProduct" />
+                                <input style="display: none;" type="number" name="quantity" value="1" min="1" max="@product.Stock">
+                                <button type="submit" class="default-button">Add To Cart</button>
+                            </form>
+                        }
+                    </div>
+                    <div class="info">
+                        <h3 class="product-name">@product.ProductName</h3>
+                        <div class="price-container">
+                            <h6 class="product-price">$@product.ProductPrice MX</h6>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+
 <div class="image-container">
     <img src="./img/image-2.png" />
     <h1>
@@ -90,46 +104,48 @@
     </div>
     <div class="image-counter">
         <div>
-            <p class="number">23</p>
-            <p class="number-text">Hours</p>
-        </div>
-        <div>
-            <p class="number">05</p>
+            <p class="number" id="days"></p>
             <p class="number-text">Days</p>
         </div>
         <div>
-            <p class="number">59</p>
+            <p class="number" id="hours"></p>
+            <p class="number-text">Hours</p>
+        </div>
+        <div>
+            <p class="number" id="minutes"></p>
             <p class="number-text">Minutes</p>
         </div>
         <div>
-            <p class="number">35</p>
+            <p class="number" id="seconds"></p>
             <p class="number-text">Seconds</p>
         </div>
     </div>
-</div>
-<div class="category-header">
-    <div class="category-title">
-        <div class="section-square"></div>
-        <h1>Our Products</h1>
-    </div>
-    <div class="section-title-container">
-        <h1>Explore our products</h1>
-        <div class="left-right-arrows">
-            <div>
-                <img src="./img/left-arrow.svg" />
-            </div>
-            <div>
-                <img src="./img/right-arrow.svg" />
-            </div>
-        </div>
-    </div>
-</div>
-<div id="section-ourProducts" class="container-products">
-</div>
-<div class="flashSales-button">
-    <div class="global-button">
-        View All Products
-    </div>
+     <script>
+        var targetDate = new Date("2024-12-31T23:59:59");
+
+        function updateCountdown() {
+            var currentDate = new Date();
+            var difference = targetDate - currentDate;
+            var $days = document.getElementById("days");
+            var $hours = document.getElementById("hours");
+            var $minutes = document.getElementById("minutes");
+            var $seconds = document.getElementById("seconds");
+
+            var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            $days.innerHTML = days;
+            $hours.innerHTML = hours;
+            $minutes.innerHTML = minutes;
+            $seconds.innerHTML = seconds;
+        }
+
+        var timer = setInterval(updateCountdown, 1000);
+
+        updateCountdown();
+    </script>
 </div>
 <div class="category-header">
     <div class="category-title">
@@ -190,6 +206,6 @@
     </div>
 </div>
 
-            @section scripts{
+@section scripts {
     <script src="~/js/site.js"></script>
 }

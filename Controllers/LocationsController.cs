@@ -22,11 +22,12 @@ namespace Tienda_Online.Controllers
         // GET: Locations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Location.ToListAsync());
+            var applicationDbContext = _context.Location.Include(l => l.User);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Locations/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -34,6 +35,7 @@ namespace Tienda_Online.Controllers
             }
 
             var location = await _context.Location
+                .Include(l => l.User)
                 .FirstOrDefaultAsync(m => m.IdAddress == id);
             if (location == null)
             {
@@ -46,6 +48,7 @@ namespace Tienda_Online.Controllers
         // GET: Locations/Create
         public IActionResult Create()
         {
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID");
             return View();
         }
 
@@ -62,11 +65,12 @@ namespace Tienda_Online.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID", location.UserID);
             return View(location);
         }
 
         // GET: Locations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -78,6 +82,7 @@ namespace Tienda_Online.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID", location.UserID);
             return View(location);
         }
 
@@ -86,7 +91,7 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdAddress,Address,City,Country,PostalCode,UserID")] Location location)
+        public async Task<IActionResult> Edit(string id, [Bind("IdAddress,Address,City,Country,PostalCode,UserID")] Location location)
         {
             if (id != location.IdAddress)
             {
@@ -113,11 +118,12 @@ namespace Tienda_Online.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID", location.UserID);
             return View(location);
         }
 
         // GET: Locations/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -125,6 +131,7 @@ namespace Tienda_Online.Controllers
             }
 
             var location = await _context.Location
+                .Include(l => l.User)
                 .FirstOrDefaultAsync(m => m.IdAddress == id);
             if (location == null)
             {
@@ -137,7 +144,7 @@ namespace Tienda_Online.Controllers
         // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var location = await _context.Location.FindAsync(id);
             if (location != null)
@@ -149,7 +156,7 @@ namespace Tienda_Online.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LocationExists(int id)
+        private bool LocationExists(string id)
         {
             return _context.Location.Any(e => e.IdAddress == id);
         }

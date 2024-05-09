@@ -1,8 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Tienda_Online.Services;
-using Microsoft.AspNetCore.Identity;
-using Tienda_Online.Models;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,21 +9,20 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-    options =>
-    {
-        options.Password.RequiredUniqueChars = 0;
-        options.Password.RequireUppercase = false;
-        options.Password.RequiredLength = 8;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireLowercase = false;
-    })
-    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
+// Registrar servicios antes de llamar a Build()
+builder.Services.AddScoped<IProductService, ProductService>(); // Suponiendo que ProductService es la implementación de IProductService
+builder.Services.AddScoped<ICategoryService, CategoryService>(); // Suponiendo que CategoryService es la implementación de ICategoryService
 
 var app = builder.Build();
 
@@ -39,12 +36,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -52,4 +49,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-

@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +48,7 @@ namespace Tienda_Online.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryName");
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryDescription");
             return View();
         }
 
@@ -56,6 +60,7 @@ namespace Tienda_Online.Controllers
         public async Task<IActionResult> Create([Bind("IdProduct,ProductName,ProductDescription,ProductImage,ProductPrice,IdCategory,Stock")] Product product)
         {
             var category = await _context.Category.Where(c => c.IdCategory == product.IdCategory).FirstOrDefaultAsync();
+
             if(category != null)
             {
                 product.Category = category;
@@ -63,7 +68,8 @@ namespace Tienda_Online.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryName", product.IdCategory);
+
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryDescription", product.IdCategory);
             return View(product);
         }
 
@@ -80,7 +86,7 @@ namespace Tienda_Online.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryName", product.IdCategory);
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryDescription", product.IdCategory);
             return View(product);
         }
 
@@ -96,7 +102,9 @@ namespace Tienda_Online.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var category = await _context.Category.Where(c => c.IdCategory == product.IdCategory).FirstOrDefaultAsync();
+
+            if (category != null)
             {
                 try
                 {
@@ -116,7 +124,7 @@ namespace Tienda_Online.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryName", product.IdCategory);
+            ViewData["IdCategory"] = new SelectList(_context.Category, "IdCategory", "CategoryDescription", product.IdCategory);
             return View(product);
         }
 

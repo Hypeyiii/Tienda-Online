@@ -12,29 +12,30 @@ namespace Tienda_Online.Models
         public int IdOrder { get; set; }
 
         [Required]
-
         public int IdProduct { get; set; }
 
         [ForeignKey("IdProduct")]
         public Product Product { get; set; } = null!;
 
         [Required]
-        [ForeignKey("User")]
-        public string? UserID { get; set; }
+        public int UserID { get; set; }
 
-        public ApplicationUser? User { get; set; }
+        [ForeignKey("UserID")]
+        public User? User { get; set; }
 
+        [Required]
         public int Quantity { get; set; }
+
+        [Required]
         public decimal Total { get; set; }
 
         [Required]
         public string? State { get; set; }
 
+        [Required]
         public Location? Location { get; set; }
 
         [Required]
-        public DateTime Date { get; set; } = DateTime.Now;
-
         public ICollection<Order_Details> OrderDetails { get; set; } = new List<Order_Details>();
     }
 }

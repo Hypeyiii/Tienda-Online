@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Tienda_Online.Models;
 using Tienda_Online.Services;
@@ -21,21 +26,21 @@ namespace Tienda_Online.Controllers
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var applicationUser = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (applicationUser == null)
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.UserID == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(applicationUser);
+            return View(user);
         }
 
         // GET: Users/Create
@@ -49,31 +54,31 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Address,City,DateTime,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Create([Bind("UserID,FirstName,LastName,Password,Email,UserName,Address,City,PostalCode")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(applicationUser);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(applicationUser);
+            return View(user);
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var applicationUser = await _context.User.FindAsync(id);
-            if (applicationUser == null)
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(applicationUser);
+            return View(user);
         }
 
         // POST: Users/Edit/5
@@ -81,23 +86,49 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,Address,City,DateTime,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,FirstName,LastName,Password,Email,UserName,Address,City,PostalCode")] User user)
         {
-            if (id != applicationUser.Id)
+            if (id != user.UserID)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var usuario = await _context.User.FindAsync(id);
+            if (usuario != null)
             {
+                var existingUser = await _context.User.Include(u => u.Location).FirstOrDefaultAsync(u => u.UserID == id);
+
+                if (existingUser != null)
+                {
+                    existingUser.FirstName = user.FirstName;
+                    existingUser.LastName = user.LastName;
+                    existingUser.Password = user.Password;
+                    existingUser.Email = user.Email;
+                    existingUser.UserName = user.UserName;
+                    existingUser.Address = user.Address;
+                    existingUser.City = user.City;
+                    existingUser.PostalCode = user.PostalCode;
+                    existingUser.Location = user.Location;
+                }
+                else
+                {
+                    existingUser.Location = new List<Location>();
+                    {
+                        new Location
+                        {
+                            Address = user.Address,
+                            City = user.City,
+                        };
+                    }
+                }
                 try
                 {
-                    _context.Update(applicationUser);
+                    _context.Update(existingUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ApplicationUserExists(applicationUser.Id))
+                    if (!UserExists(user.UserID))
                     {
                         return NotFound();
                     }
@@ -106,47 +137,47 @@ namespace Tienda_Online.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View(user);
             }
-            return View(applicationUser);
+            return View(user);
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var applicationUser = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (applicationUser == null)
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.UserID == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(applicationUser);
+            return View(user);
         }
 
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var applicationUser = await _context.User.FindAsync(id);
-            if (applicationUser != null)
+            var user = await _context.User.FindAsync(id);
+            if (user != null)
             {
-                _context.User.Remove(applicationUser);
+                _context.User.Remove(user);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ApplicationUserExists(string id)
+        private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.User.Any(e => e.UserID == id);
         }
     }
 }

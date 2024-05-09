@@ -1,87 +1,108 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using Tienda_Online.Controllers;
 using Tienda_Online.Models;
+using Tienda_Online.Services;
 using Tienda_Online.ViewModels;
 
 namespace Tienda.Controllers;
 
-public class AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager) : Controller
+public class AccountController : BaseController
 {
-    public IActionResult Login(string? returnUrl = null)
+    public AccountController(ApplicationDbContext context) : base(context)
     {
-        ViewData["ReturnUrl"] = returnUrl;
+    }
+
+    [AllowAnonymous]
+    public IActionResult Register()
+    {
         return View();
     }
 
+    [AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> Login(LoginVM model, string? returnUrl = null)
+    public async Task <IActionResult> Register(User User)
     {
-        ViewData["ReturnUrl"] = returnUrl;
-        if (ModelState.IsValid)
+        try
         {
-            //login
-            var result = await signInManager.PasswordSignInAsync(model.Username!, model.Password!, true, true);
-
-            if (result.Succeeded)
+            if(User != null)
             {
-                return RedirectToLocal("/Home/Account");
-            }
+                if(await _context.User.AnyAsync(u => u.UserName == User.UserName))
+                {
+                    ModelState.AddModelError("UserName", "Username already exists");
+                    return View(User);
+                }
+                _context.User.Add(User);
+                await _context.SaveChangesAsync();
 
-            ModelState.AddModelError("", "Las credenciales no coinciden");
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                identity.AddClaim(new Claim(ClaimTypes.Name, User.UserName));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier , User.UserID.ToString()));
+
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                return RedirectToAction("Index", "Home");
+            }
+            return View(User);
         }
-        return View(model);
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View(User);
+        }
     }
 
-    public IActionResult Register(string? returnUrl = null)
+    [AllowAnonymous]
+    public IActionResult Login()
     {
-        ViewData["ReturnUrl"] = returnUrl;
+        if(User.Identity !=null && User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
         return View();
     }
 
+    [AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterVM model, string? returnUrl = null)
+    public async Task<IActionResult> Login (string UserName, string password)
     {
-        ViewData["ReturnUrl"] = returnUrl;
-        if (ModelState.IsValid)
+        try
         {
-            ApplicationUser user = new()
+            var user = await _context.User.FirstOrDefaultAsync(u => u.UserName == UserName && u.Password == password);
+            if(user != null)
             {
-                UserName = model.Name,
-                FirstName = model.FirstName!,
-                LastName = model.LastName!,
-                Email = model.Email,
-                Address = model.Address!,
-                City = model.City!,
-                Id = Guid.NewGuid().ToString()
-            };
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()));
 
-            var result = await userManager.CreateAsync(user, model.Password!);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-            if (result.Succeeded)
-            {
-                await signInManager.SignInAsync(user, false);
-
-                return RedirectToLocal("/");
+                return RedirectToAction("Index", "Home");
             }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
+            ModelState.AddModelError("", "Invalid username or password");
+            return View();
         }
-        return View(model);
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View();
+        }
     }
 
     public async Task<IActionResult> Logout()
     {
-        await signInManager.SignOutAsync();
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Index", "Home");
     }
-
-    private IActionResult RedirectToLocal(string? returnUrl)
+    [AllowAnonymous]
+    public IActionResult AccessDenied()
     {
-        return !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)
-            ? Redirect(returnUrl)
-            : RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+        return View();
     }
 }

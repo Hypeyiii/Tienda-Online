@@ -1,0 +1,63 @@
+@using System.Security.Claims;
+
+<div class="top-container">
+        Summer Sales For All Swim Suits - 50% Off - Free Shipping <span>Shop Now</span>
+    </div>
+    <header>
+        <div class="header-container">
+            <div class="header-text">
+                Exclusive
+            </div>
+            <div class="header-list">
+                <a href="/">
+                    Home
+                </a>
+                <a href="@Url.Action("Contact", "Home")">
+                    Contact
+                </a>
+                <a href="@Url.Action("AboutUs", "Home")">
+                    About
+                </a>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Account")">
+                        Login
+                    </a>
+                }
+            </div>
+            <div class="header-logo-list">
+                <input class="search-input" type="search" placeholder="What are you looking for?" name="search" />
+                <a href="@Url.Action("Index", "Cart")">
+                    <img src="~/img/cart.svg" class="header-svg" />
+                </a>
+                <a asp-controller="/Home" asp-action="Wishlist">
+                    <img src="~/img/favorite.svg" class="header-svg" />
+                </a>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                    <div class="dropdown">
+                        <button class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <img src="~/img/user.svg" class="header-svg" />
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="Users" asp-action="Details"
+                                    asp-route-id="@userID">My Account</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Log out</a></li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Register">
+                        <img src="~/img/user.svg" class="header-svg" />
+                    </a>
+                }
+            </div>
+        </div>
+    </header>

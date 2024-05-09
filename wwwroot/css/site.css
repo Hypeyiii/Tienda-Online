@@ -21,6 +21,26 @@ h1 {
 h3 {
   margin: 0;
 }
+.dropdown {
+    background-color: transparent;
+    border: none;
+}
+.dropdown-toggle{
+    background-color: transparent;
+    border: none;
+}
+.dropdown-item:hover{
+    background-color: transparent;
+    color: black;
+}
+.dropdown-item:active {
+    background-color: transparent;
+    color: black;
+}
+.dropdown-menu {
+    backdrop-filter: blur(20px);
+    background-color: transparent;
+}
 .top-container {
   background-color: black;
   color: white;
@@ -149,7 +169,7 @@ header {
   color: grey;
   cursor: auto;
 }
-.image-product-container {
+.product-container {
   width: 100%;
   height: 250px;
   display: flex;
@@ -160,6 +180,18 @@ header {
   border-radius: 5px;
   cursor: pointer;
   opacity: 0.85;
+}
+.product-image-container{
+  width: 175px;
+  height: 175px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.product-image-container img{
+  width: 100%;
+  height: auto;
 }
 .image-product-container:hover {
   opacity: 1;
@@ -186,6 +218,9 @@ header {
   font-weight: bold;
   color: #db4444;
 }
+.product:hover .add-to-cart-container{
+  display: flex;
+}
 .add-to-cart-container {
   position: absolute;
   bottom: 0;
@@ -206,6 +241,62 @@ header {
 }
 .add-to-cart-container:hover {
   opacity: 1;
+}
+.delete img{
+  width: 10px;
+  height: 10px;
+}
+.cart-buttons{
+  text-align: center;
+  display: flex;
+  padding: 5px;
+  color: white;
+  background-color: #DF4444;
+  border: none;
+  border-radius: 5px;
+}
+
+.cart-buttons img{
+  width: 15px;
+  height: 15px;
+}
+.no-stock-container{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: white;
+  background-color: black;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin: 0;
+  padding: 5px;
+  opacity: 0.6;
+  transition: ease-in-out 0.3s;
+}
+.default-button{
+  color: white;
+  background-color: black;
+  border: none;
+}
+.cart-quantity{
+  width: 70px;
+}
+.cart-quantity img{
+  background-color: white;
+  border: none;
+}
+.cart-quantity-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 .add-to-cart-modal {
   position: fixed;
@@ -714,9 +805,24 @@ footer {
     padding: 2px;
 }
 .cart-image {
-  width: 50px;
-  height: 39px;
-  object-fit: cover;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cart-image img{
+  width: 100%;
+  height: auto;
+}
+.cart-product-name{
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
 }
 .cart-quantity{
     display: flex;
@@ -744,8 +850,24 @@ footer {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-
 }
+
+.no-products-in-cart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 85%;
+  margin: auto;
+  text-align: center;
+}
+.no-products-in-cart-container img {
+  width: 200px;
+  height: auto;
+  opacity: 0.4;
+}
+
 .slide-in-left {
   -webkit-animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
     both;
@@ -947,33 +1069,9 @@ footer {
     height: 600px;
     margin: auto;
 }
-.product-side-images-container{
-    width: 100%;
-    height: 100%;
-    grid-column: span 2 / span 2;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    justify-content: space-between;
-    align-items: center;
 
-}
-.product-view-images-container {
-    width: 200px;
-    height: auto;
-    padding: 10px;
-    background-color: #f6f6f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-    .product-view-images-container:hover{
-        transition: ease-in-out 0.3s;
-        border: solid black 1px;
-        transform: scale(1.05);
-    }
 .product-main-image-container {
-    grid-column: span 5 / span 5; 
+    grid-column: span 7 / span 7; 
     width: 100%;
     height: 600px;
     padding: 10px;
@@ -982,6 +1080,17 @@ footer {
     justify-content: center;
     align-items: center;
 }
+.product-main-image-container img{
+  width: 500px;
+  height: auto;
+  object-fit: cover;
+  transition: ease-in-out 0.3s;
+}
+
+.product-main-image-container:hover img{
+  transform: scale(1.1);
+}
+
 .product-info{
     grid-column: span 3 / span 3;
     display: flex;
@@ -1196,4 +1305,89 @@ footer {
     gap: 10px;
     justify-content: center;
     align-items: center;
+}
+.item-footer a{
+    color: white;
+}
+.item-footer a:hover{
+    color:white;
+    text-decoration: underline;
+}
+.account-section {
+    width: 85%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user {
+    color: #DF4444;
+}
+
+.info-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.details {
+    width: 85%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.account-navigate {
+    grid-column: span 2 / span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.account-details {
+    grid-column: span 8 / span 8;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.account-buttons{
+    grid-column: span 10 / span 10;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+}
+.user-info-title {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+}
+.user-info-text{
+    font-size: 16px;
+    font-weight: 400;
+    padding: 10px;
+    background-color: #f6f6f6;
+    width: 100%;
+    text-align: left;
+    color: gray;
+    border: solid transparent 1px;
+}
+.account-details-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.account-title{
+    color: #DF4444;
 }

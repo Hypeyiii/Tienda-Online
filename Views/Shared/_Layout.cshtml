@@ -1,10 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Tienda_Online.Models
-
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,40 +10,7 @@
 </head>
 
 <body>
-    <div class="top-container">
-        Summer Sales For All Swim Suits - 50% Off - Free Shipping <span>Shop Now</span>
-    </div>
-    <header>
-        <div class="header-container">
-            <div class="header-text">
-                Exclusive
-            </div>
-            <div class="header-list">
-                <a href="/">
-                    Home
-                </a>
-                <a asp-controller="Home" asp-action="Contact">
-                    Contact
-                </a>
-                <a asp-controller="Home" asp-action="AboutUs">
-                    About
-                </a>
-                <partial name="_LoginPartial" />
-            </div>
-            <div class="header-logo-list">
-                <input class="search-input" type="text" placeholder="What are you looking for?" />
-                <a asp-controller="Home" asp-action="Cart">
-                    <img src="../img/cart.svg" class="header-svg" />
-                </a>
-                <a asp-controller="/Home" asp-action="Wishlist">
-                    <img src="../img/favorite.svg" class="header-svg" />
-                </a>
-                    <a asp-controller="/Users" asp-action="">
-                        <img src="../img/user.svg" class="header-svg" />
-                    </a>
-            </div>
-        </div>
-    </header>
+    @await Html.PartialAsync("_Header");
     <div>
         <main role="main">
             @RenderBody()
@@ -63,24 +24,21 @@
         </div>
         <div class="item-footer">
             <h2>Support</h2>
-            <h3>111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.</h3>
-            <h3>exclusive@gmail.com</h3>
-            <h3>+88015-88888-9999</h3>
+            <h3>San Nicolás de los Garza, Nuevo León, México.</h3>
+            <h3>Equipo#5@gmail.com</h3>
+            <h3>+52 81 1234 1234</h3>
         </div>
         <div class="item-footer">
             <h2>Account</h2>
-            <h3>My Account</h3>
-            <h3>Login / Register</h3>
-            <h3>Cart</h3>
-            <h3>Wishlist</h3>
-            <h3>Shop</h3>
+            <a asp-controller="Home" asp-action="Account">My Account</a>
+            <a asp-controller="Home" asp-action="Cart">Cart</a>
+            <a asp-controller="Home" asp-action="Wishlist">Wishlist</a>
+            <a asp-controller="Home" asp-action="">Shop</a>
         </div>
         <div class="item-footer">
-            <h2>Quick Link</h2>
-            <h3>Privacy Policity</h3>
-            <h3>Terms of Use</h3>
-            <h3>FAQ</h3>
-            <h3>Contact</h3>
+            <h2>About the shop</h2>
+            <a asp-controller="Home" asp-action="AboutUs">Privacy Policity</a>
+            <a asp-controller="Home" asp-action="Contact">Contact</a>
         </div>
         <div class="item-footer">
             <h2>Download App</h2>
@@ -90,6 +48,8 @@
         </div>
     </footer>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

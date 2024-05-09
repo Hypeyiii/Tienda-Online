@@ -1,0 +1,56 @@
+@model User
+
+@{
+    ViewData["Title"] = "Profile Details";
+}
+
+<div class="account-section">
+    <div class="section-page">
+        <a href="/" class="home-text">Home</a>
+        <a>/</a>
+        <a class="page-text">Account</a>
+    </div>
+    <div>
+        Welcome! <span class="user">@User.Identity.Name</span>
+    </div>
+</div>
+<section class="details">
+    <div class="account-navigate">
+        <h4>My Account</h4>
+        <a asp-controller="Users" asp-action="Details" asp-route-id="5">Details of my profile</a>
+        <a asp-controller="Users" asp-action="Edit" asp-route-id="5">Edit my profile</a>
+    </div>
+    <div class="account-details">
+        <h3 class="account-title">Information about your profile</h3>
+        <div class="account-details-container">
+            <div class="info-line">
+                <h2 class="user-info-title">First Name</h2>
+                <h3 class="user-info-text">@Html.DisplayFor(model => model.FirstName)</h3>
+            </div>
+            <div class="info-line">
+                <h2 class="user-info-title">Last Name</h2>
+                <h3 class="user-info-text">@Html.DisplayFor(model => model.LastName)</h3>
+            </div>
+        </div>
+        <div class="account-details-container">
+            <div class="info-line">
+                <h2 class="user-info-title">Email</h2>
+                <h3 class="user-info-text">@Html.DisplayFor(model => model.Email)</h3>
+            </div>
+            <div class="info-line">
+                <h2 class="user-info-title">Address</h2>
+                <h3 class="user-info-text">@Html.DisplayFor(model => model.Address)</h3>
+            </div>
+        </div>
+        <div class="account-details-container">
+            <div class="info-line">
+                <h2 class="user-info-title">City</h2>
+                <h3 class="user-info-text">@Html.DisplayFor(model => model.City)</h3>
+            </div>
+            <div class="info-line">
+                <h2 class="user-info-title">Postal Code</h2>
+                <h3 class="user-info-text">@Html.DisplayFor(model => model.PostalCode)</h3>
+            </div>
+        </div>
+    </div>
+</section>

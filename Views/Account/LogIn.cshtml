@@ -1,5 +1,4 @@
-﻿@using Tienda_Online.ViewModels
-@model LoginVM
+﻿@model User
 @{
     ViewData["Title"] = "Log In";
 }
@@ -34,17 +33,12 @@
         <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]" class="sing-up-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="group-container">
-                <input asp-for="Username" class="form-control" placeholder="Nombre de usuario" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <input asp-for="UserName" class="form-control" placeholder="Nombre de usuario" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="group-container">
                 <input asp-for="Password" class="form-control" placeholder="Contraseña"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="group-container form-check">
-                <label class="form-check-label">
-                    <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a => a.RememberMe)
-                </label>
             </div>
                 <div class="button-container">
                     <a asp-action="Register" class="text-decoration-none float-start mt-2" asp-route-returnurl="@ViewData["ReturnUrl"]">Don't have account?</a>
