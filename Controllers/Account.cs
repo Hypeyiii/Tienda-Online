@@ -97,6 +97,7 @@ public class AccountController : BaseController
 
     public async Task<IActionResult> Logout()
     {
+        Response.Cookies.Delete("cart");
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Index", "Home");
     }

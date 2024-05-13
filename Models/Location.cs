@@ -7,7 +7,7 @@ namespace Tienda_Online.Models
     {
         [Key]
         [Required]
-        public string IdAddress { get; set; } = null!;
+        public string IdAddress { get; set; }
 
         [Required(ErrorMessage = "El nombre de la dirección es obligatorio.")]
         public string? Address { get; set; }

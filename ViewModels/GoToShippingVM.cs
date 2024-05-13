@@ -8,5 +8,7 @@ namespace Tienda_Online{
         public List<Location> Locations { get; set; } = null!;
 
         public int LocationID { get; set; }
+
+        public List<User> Users { get; set; } = null!;
     }
 }

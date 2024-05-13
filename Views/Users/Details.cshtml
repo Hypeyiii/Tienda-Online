@@ -19,8 +19,7 @@
         <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.UserID">Details of my profile</a>
         <a asp-controller="Users" asp-action="Edit" asp-route-id="@Model.UserID">Edit my profile</a>
         <h4>My orders</h4>
-        <a asp-controller="Orders" asp-action="Details" asp-route-id="@Model.UserID">Details of my orders</a>
-        <a asp-controller="Orders" asp-action="Edit" asp-route-id="@Model.UserID">Edit my orders</a>
+        <a asp-controller="Cart" asp-action="MyOrders" asp-route-id="@Model.UserID">My Orders</a>
     </div>
     <div class="account-details">
         <h3 class="account-title">Information about your profile</h3>

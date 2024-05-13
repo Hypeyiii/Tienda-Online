@@ -13,7 +13,7 @@ namespace Tienda_Online.Models
         public int IdOrder { get; set; }
 
         [ForeignKey("IdOrder")]
-        public Order Order { get; set; } = null!;
+        public Orders Order { get; set; } = null!;
 
         [Required]
         public int IdProduct { get; set; }

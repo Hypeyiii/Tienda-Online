@@ -12,7 +12,7 @@
 @if (Model.Cart.Items.Count == 0)
 {
     <div class="no-products-in-cart-container">
-        <img src="~/img/cart.svg"/>
+        <img src="~/img/cart.svg" />
         <h2>Tú carrito parece estar vacío</h2>
         <h5>Agregue productos a su carrito</h5>
         <a href="/" class="global-button">
@@ -46,13 +46,13 @@ else
                         <img src="~/img/product-@item.ProductImage" />
                     </a>
                     <h5 class="cart-product-name">@item.ProductName</h5>
-                    <form asp-controller="Cart" asp-action="RemoveItem" method="post" class="delete-button">
-                        <input type="hidden" name="id" value="@item.ProductID" />
-                        <button type="submit">
-                            <img src="~/img/delete.svg"/>
-                        </button>
-                    </form>
                 </div>
+                <form asp-controller="Cart" asp-action="RemoveItem" method="post" class="delete-button">
+                    <input type="hidden" name="id" value="@item.ProductID" />
+                    <button type="submit">
+                        <img src="~/img/delete.svg" />
+                    </button>
+                </form>
                 <form asp-controller="Cart" asp-action="ReloadQuantity" method="post">
                     <div class="cart-quantity-container">
                         <input type="number" value="@item.Quantity" name="quantity" class="cart-quantity" min="1"
@@ -64,10 +64,10 @@ else
                     <input type="hidden" name="id" value="@item.ProductID" />
                 </form>
                 <div>
-                    <h1 class="price">$@item.ProductPrice MX</h1>
+                    <h1 class="price">$@item.ProductPrice.ToString("C")</h1>
                 </div>
                 <div>
-                    <h1 class="price">$@subtotal MX</h1>
+                    <h1 class="price">$@subtotal.ToString("C")</h1>
                 </div>
             </div>
         }
@@ -96,13 +96,15 @@ else
                 <p>Total:</p>
                 <p id="total">$@Model.Cart.Total MX</p>
             </div>
-            <a href="/Home/Checkout" class="global-button">
-                Proceed to checkout
-            </a>
+            <form asp-controller="Cart" asp-action="SuccessWithPaypal" method="post">
+                <input type="hidden" name="total" value="@Model.Cart.Total" />
+                <button type="submit" class="global-button">Comprar</button>
+            </form>
+
         </div>
     </div>
-
 }
+
 @section scripts {
     <script src="~/js/site.js"></script>
 }

@@ -1,0 +1,80 @@
+@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "My Orders";
+    var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+
+<div class="account-section">
+    <div class="section-page">
+        <a href="/" class="home-text">Home</a>
+        <a>/</a>
+        <a class="page-text">Orders</a>
+    </div>
+    <div>
+        Welcome! <span class="user">@User.Identity.Name</span>
+    </div>
+</div>
+<section class="details">
+    <div class="account-navigate">
+        <h4>My Account</h4>
+        <a asp-controller="Users" asp-action="Details" asp-route-id="@UserID">Details of my profile</a>
+        <a asp-controller="Users" asp-action="Edit" asp-route-id="@UserID">Edit my profile</a>
+        <h4>My orders</h4>
+        <a asp-controller="Cart" asp-action="MyOrders" asp-route-id="@UserID">My Orders</a>
+    </div>
+    <div class="account-details">
+        <h3 class="account-title">My orders</h3>
+        @if (Model.Count > 0)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Detalles</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.IdOrder</td>
+                            <td>@item.OrderDate</td>
+                            <td>@item.State</td>
+                            <td>@item.Total.ToString("C")</td>
+                            <td>
+                                <a asp-controller="Cart" asp-action="MyOrderDetails" asp-route-id="@item.IdOrder">
+                                    Ver
+                                </a>
+                            </td>
+                            <td style="display: flex; justify-content: center; align-content: center;">
+                                <form asp-controller="Cart" asp-action="DeleteOrder" method="post">
+                                    <input type="hidden" name="id" value="@item.IdOrder">
+                                    <button type="submit" class="cart-buttons">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="no-products-in-cart-container">
+                <img src="~/img/cart.svg" />
+                <h2>No tienes ordenes</h2>
+                <h5>Realiza una compra</h5>
+                <a href="/" class="global-button">
+                    Return to shop
+                </a>
+            </div>
+        }
+    </div>
+</section>

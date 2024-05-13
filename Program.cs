@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Tienda_Online.Services;
@@ -21,8 +22,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 
 // Registrar servicios antes de llamar a Build()
-builder.Services.AddScoped<IProductService, ProductService>(); // Suponiendo que ProductService es la implementación de IProductService
-builder.Services.AddScoped<ICategoryService, CategoryService>(); // Suponiendo que CategoryService es la implementación de ICategoryService
+builder.Services.AddScoped<IProductService, ProductService>(); // Suponiendo que ProductService es la implementaciï¿½n de IProductService
+builder.Services.AddScoped<ICategoryService, CategoryService>(); // Suponiendo que CategoryService es la implementaciï¿½n de ICategoryService
 
 var app = builder.Build();
 
@@ -35,6 +36,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+var cultureInfo = new CultureInfo("es-MX");
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

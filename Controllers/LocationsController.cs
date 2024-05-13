@@ -27,7 +27,7 @@ namespace Tienda_Online.Controllers
         }
 
         // GET: Locations/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
@@ -48,7 +48,7 @@ namespace Tienda_Online.Controllers
         // GET: Locations/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID");
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address");
             return View();
         }
 
@@ -65,12 +65,12 @@ namespace Tienda_Online.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID", location.UserID);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", location.UserID);
             return View(location);
         }
 
         // GET: Locations/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -82,7 +82,7 @@ namespace Tienda_Online.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID", location.UserID);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", location.UserID);
             return View(location);
         }
 
@@ -118,12 +118,12 @@ namespace Tienda_Online.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserID", location.UserID);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", location.UserID);
             return View(location);
         }
 
         // GET: Locations/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
@@ -144,7 +144,7 @@ namespace Tienda_Online.Controllers
         // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var location = await _context.Location.FindAsync(id);
             if (location != null)

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Tienda_Online.Models;
@@ -77,7 +78,7 @@ namespace Tienda.Controllers
                 Quantity = x.Quantity
             }).ToList();
 
-            var cartJson = await Task.Run(()=> JsonConvert.SerializeObject(productsID));
+            var cartJson = await Task.Run(() => JsonConvert.SerializeObject(productsID));
 
             Response.Cookies.Append("cart", cartJson, new CookieOptions
             {
@@ -101,11 +102,11 @@ namespace Tienda.Controllers
 
                 if (productIDAndQuantity != null)
                 {
-                    foreach(var item in productIDAndQuantity)
+                    foreach (var item in productIDAndQuantity)
                     {
                         var product = await _context.Products.FindAsync(item.IdProduct);
 
-                        if(product != null)
+                        if (product != null)
                         {
                             cartVM.Items.Add(new CartItemVM
                             {
@@ -122,6 +123,24 @@ namespace Tienda.Controllers
 
                 return cartVM;
             }
+        }
+
+        public IActionResult HandleError(Exception e)
+        {
+            return View(
+                new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                }
+            );
+        }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            });
         }
     }
 }

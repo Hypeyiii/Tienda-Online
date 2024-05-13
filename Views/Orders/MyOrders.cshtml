@@ -1,0 +1,37 @@
+@using System.Security.Claims
+@model IEnumerable<Tienda_Online.Models.Orders>
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+
+<div class="section-page">
+    <a href="/" class="home-text">Home</a>
+    <a>/</a>
+    <a class="page-text">My Orders</a>
+</div>
+
+<div class="page-success-container">
+    <h2>My Orders</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Order)
+            {
+                <tr>
+                    <td>@item.IdOrder</td>
+                    <td>@item.OrderDate</td>
+                    <td>@item.State</td>
+                    <td>@item.Total</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

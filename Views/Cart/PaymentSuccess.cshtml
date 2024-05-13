@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = "Payment Success";
+}
+
+@model Orders
+
+<div class="section-page">
+    <a href="/" class="home-text">Home</a>
+    <a>/</a>
+    <a class="page-text">Payment Success</a>
+</div>
+
+<div class="page-success-container">
+    <img style="width: 100px; height: auto;" src="~/img/success.svg" />
+    <h2>¡Gracias por tu compra!</h2>
+    <h5>Hemos recibido tu pago por un monto de @Model.Total.ToString("C") MX</h5>
+    <table>
+        <thead>
+            <tr>
+                <th>Numero de pedido</th>
+                <th>Fecha del pedido</th>
+                <th>Estado</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.IdOrder</td>
+                <td>@Model.OrderDate</td>
+                <td>@Model.State</td>
+                <td>@Model.Total.ToString("C")</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Detalles de los productos</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.OrderDetails)
+            {
+                var subtotal = item.Quantity * item.Product.ProductPrice;
+                <tr>
+                    <td>
+                        <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@item.IdProduct" class="table-image">
+                            <img src="~/img/product-@item.Product.ProductImage" alt="Product Image @item.Product.ProductImage">
+                        </a>
+                    </td>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.ProductPrice.ToString("C")</td>
+                    <td>@subtotal.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">Total</td>
+                <td>@Model.Total.ToString("C") MX</td>
+            </tr>
+        </tfoot>
+    </table>
+    <a href="/" class="global-button">
+        Return to shop
+    </a>
+</div>

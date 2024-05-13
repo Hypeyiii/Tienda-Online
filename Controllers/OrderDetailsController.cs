@@ -37,7 +37,7 @@ namespace Tienda_Online.Controllers
             var order_Details = await _context.OrderDetails
                 .Include(o => o.Order)
                 .Include(o => o.Product)
-                .FirstOrDefaultAsync(m => m.IdOrder == id);
+                .FirstOrDefaultAsync(m => m.OrderDetailsId == id);
             if (order_Details == null)
             {
                 return NotFound();
@@ -59,7 +59,7 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdOrder,IdProduct,Quantity,Price")] Order_Details order_Details)
+        public async Task<IActionResult> Create([Bind("OrderDetailsId,IdOrder,IdProduct,Quantity,Price")] Order_Details order_Details)
         {
             if (ModelState.IsValid)
             {
@@ -95,9 +95,9 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdOrder,IdProduct,Quantity,Price")] Order_Details order_Details)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderDetailsId,IdOrder,IdProduct,Quantity,Price")] Order_Details order_Details)
         {
-            if (id != order_Details.IdOrder)
+            if (id != order_Details.OrderDetailsId)
             {
                 return NotFound();
             }
@@ -111,7 +111,7 @@ namespace Tienda_Online.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Order_DetailsExists(order_Details.IdOrder))
+                    if (!Order_DetailsExists(order_Details.OrderDetailsId))
                     {
                         return NotFound();
                     }
@@ -138,7 +138,7 @@ namespace Tienda_Online.Controllers
             var order_Details = await _context.OrderDetails
                 .Include(o => o.Order)
                 .Include(o => o.Product)
-                .FirstOrDefaultAsync(m => m.IdOrder == id);
+                .FirstOrDefaultAsync(m => m.OrderDetailsId == id);
             if (order_Details == null)
             {
                 return NotFound();
@@ -164,7 +164,7 @@ namespace Tienda_Online.Controllers
 
         private bool Order_DetailsExists(int id)
         {
-            return _context.OrderDetails.Any(e => e.IdOrder == id);
+            return _context.OrderDetails.Any(e => e.OrderDetailsId == id);
         }
     }
 }

@@ -1,4 +1,4 @@
-@model IEnumerable<Tienda_Online.Models.Order>
+@model IEnumerable<Tienda_Online.Models.Orders>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Total)
@@ -34,13 +28,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Product.ProductDescription)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.User.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)

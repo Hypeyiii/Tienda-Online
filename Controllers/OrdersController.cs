@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +22,7 @@ namespace Tienda_Online.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.Product).Include(o => o.User);
+            var applicationDbContext = _context.Orders.Include(o => o.User);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -30,22 +34,20 @@ namespace Tienda_Online.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Product)
+            var orders = await _context.Orders
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.IdOrder == id);
-            if (order == null)
+            if (orders == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(orders);
         }
 
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription");
             ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address");
             return View();
         }
@@ -55,17 +57,16 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdOrder,IdProduct,UserID,Quantity,Total,State")] Order order)
+        public async Task<IActionResult> Create([Bind("IdOrder,UserID,Total,State")] Orders orders)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                _context.Add(orders);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription", order.IdProduct);
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", order.UserID);
-            return View(order);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", orders.UserID);
+            return View(orders);
         }
 
         // GET: Orders/Edit/5
@@ -76,14 +77,13 @@ namespace Tienda_Online.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
+            var orders = await _context.Orders.FindAsync(id);
+            if (orders == null)
             {
                 return NotFound();
             }
-            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription", order.IdProduct);
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", order.UserID);
-            return View(order);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", orders.UserID);
+            return View(orders);
         }
 
         // POST: Orders/Edit/5
@@ -91,9 +91,9 @@ namespace Tienda_Online.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdOrder,IdProduct,UserID,Quantity,Total,State")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("IdOrder,UserID,Total,State")] Orders orders)
         {
-            if (id != order.IdOrder)
+            if (id != orders.IdOrder)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace Tienda_Online.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    _context.Update(orders);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.IdOrder))
+                    if (!OrdersExists(orders.IdOrder))
                     {
                         return NotFound();
                     }
@@ -118,9 +118,8 @@ namespace Tienda_Online.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdProduct"] = new SelectList(_context.Products, "IdProduct", "ProductDescription", order.IdProduct);
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", order.UserID);
-            return View(order);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "Address", orders.UserID);
+            return View(orders);
         }
 
         // GET: Orders/Delete/5
@@ -131,16 +130,15 @@ namespace Tienda_Online.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.Product)
+            var orders = await _context.Orders
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.IdOrder == id);
-            if (order == null)
+            if (orders == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(orders);
         }
 
         // POST: Orders/Delete/5
@@ -148,19 +146,24 @@ namespace Tienda_Online.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
+            var orders = await _context.Orders.FindAsync(id);
+            if (orders != null)
             {
-                _context.Orders.Remove(order);
+                _context.Orders.Remove(orders);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
+        private bool OrdersExists(int id)
         {
             return _context.Orders.Any(e => e.IdOrder == id);
+        }
+
+        public IActionResult MyOrders(){
+            var orders = _context.Orders.Include(o => o.User).Where(o => o.UserID.Equals(User.Identity.Name));
+            return View(orders);
         }
     }
 }

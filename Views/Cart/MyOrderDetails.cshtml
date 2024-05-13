@@ -1,0 +1,54 @@
+@using System.Security.Claims
+@{
+    ViewData["Title"] = "My Order Details";
+    var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+@model IEnumerable<Tienda_Online.Models.Order_Details>
+
+<div class="section-page">
+    <a href="/" class="home-text">Home</a>
+    <a>/</a>
+    <a class="page-text">My Order Details</a>
+</div>
+<section class="details">
+    <div class="account-navigate">
+        <h4>My Account</h4>
+        <a asp-controller="Users" asp-action="Details" asp-route-id="@UserID">Details of my profile</a>
+        <a asp-controller="Users" asp-action="Edit" asp-route-id="@UserID">Edit my profile</a>
+        <h4>My orders</h4>
+        <a asp-controller="Cart" asp-action="MyOrders" asp-route-id="@UserID">My Orders</a>
+    </div>
+    <div class="account-details">
+        <h3 class="account-title">Details of order</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var subtotal = item.Quantity * item.Product.ProductPrice;
+                    <tr>
+                        <td>
+                            <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@item.IdProduct"
+                                class="table-image">
+                                <img src="~/img/product-@item.Product.ProductImage"
+                                    alt="Product Image @item.Product.ProductName">
+                            </a>
+                        </td>
+                        <td>@item.Product.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Product.ProductPrice.ToString("C")</td>
+                        <td>@subtotal.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

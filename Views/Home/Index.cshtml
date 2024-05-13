@@ -36,23 +36,18 @@
 
 @foreach (var category in ViewBag.Categories)
 {
-    <div class="category-header" style="margin-top: 100px;">
-        <div class="category-title">
-            <div class="section-square"></div>
-            <h1 class="category-name-text">@category.CategoryName</h1>
-        </div>
-        <div class="section-title-container">
-            <h5 class="category-description-text">@category.CategoryDescription</h5>
-            <div class="left-right-arrows">
-                <div>
-                    <img src="./img/left-arrow.svg" />
-                </div>
-                <div>
-                    <img src="./img/right-arrow.svg" />
-                </div>
+    if (category.Products.Count > 0)
+    {
+        <div class="category-header" style="margin-top: 100px;">
+            <div class="category-title">
+                <div class="section-square"></div>
+                <h1 class="category-name-text">@category.CategoryName</h1>
+            </div>
+            <div class="section-title-container">
+                <h5 class="category-description-text">@category.CategoryDescription</h5>
             </div>
         </div>
-    </div>
+    }
     <div class="container-products">
         @foreach (var product in Model)
         {
@@ -67,7 +62,7 @@
                                     alt="Imagen de producto @product.ProductName">
                             </a>
                         </div>
-                        @if (product.Stock == 0)
+                        @if (product.Stock <= 0)
                         {
                             <div class="no-stock-container" style="background-color: red; cursor: not-allowed;">
                                 Out of stock
@@ -75,7 +70,7 @@
                         }
                         else
                         {
-                            <form  action="@Url.Action("AddProductIndex")" class="add-to-cart-container">
+                            <form action="@Url.Action("AddProductIndex")" class="add-to-cart-container">
                                 <input type="hidden" name="id" value="@product.IdProduct" />
                                 <input style="display: none;" type="number" name="quantity" value="1" min="1" max="@product.Stock">
                                 <button type="submit" class="default-button">Add To Cart</button>
@@ -85,7 +80,7 @@
                     <div class="info">
                         <h3 class="product-name">@product.ProductName</h3>
                         <div class="price-container">
-                            <h6 class="product-price">$@product.ProductPrice MX</h6>
+                            <h6 class="product-price">@product.ProductPrice.ToString("C") MX</h6>
                         </div>
                     </div>
                 </div>
@@ -99,9 +94,9 @@
     <h1>
         Categories
     </h1>
-    <div class="image-button">
+    <a href="Home/ProductDetails/10" class="image-button">
         Buy Now!
-    </div>
+    </a>
     <div class="image-counter">
         <div>
             <p class="number" id="days"></p>
@@ -120,8 +115,8 @@
             <p class="number-text">Seconds</p>
         </div>
     </div>
-     <script>
-        var targetDate = new Date("2024-12-31T23:59:59");
+    <script>
+        var targetDate = new Date("2024-05-14T09:00:00");
 
         function updateCountdown() {
             var currentDate = new Date();

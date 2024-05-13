@@ -9,7 +9,7 @@ namespace Tienda_Online.Models
     {
         public User()
         {
-            Orders = new List<Order>();
+            Orders = new List<Orders>();
         }
         [Key]
         [Required]
@@ -30,7 +30,7 @@ namespace Tienda_Online.Models
         public string City { get; set; } = "";
         [Required]
         public int PostalCode { get; set; }
-        public ICollection<Order> Orders { get; set; } = null!;
+        public ICollection<Orders> Orders { get; set; } = null!;
         [InverseProperty("User")]
 
         public ICollection<Location> Location { get; set; } = null!;
