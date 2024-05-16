@@ -17,7 +17,8 @@
         color: #db4444;
         text-decoration: none;
     }
-    .already-container{
+
+    .already-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -33,75 +34,67 @@
     <a class="page-text">Register</a>
 </div>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="already-container">
-            <h1>Ya estás registrado</h1>
-            <p>Si quieres registrarte con otro usuario, cierra sesión</p>
-            <p>Redirigiendo a la pagina principal...</p>
-            <script>
-                setTimeout(() => {
-                    window.location.href = "/";
-                }, 5000);
-            </script>
-        </div>
-    }
-    else
-    {
-        <section class="section-register">
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="already-container">
+        <h1>Ya estás registrado</h1>
+        <p>Si quieres registrarte con otro usuario, cierra sesión</p>
+        <p>Redirigiendo a la pagina principal...</p>
+        <script>
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 5000);
+        </script>
+    </div>
+}
+else
+{
+    <section class="section-register">
         <img src="/img/sing-up.png" alt="Alternate Text" class="register-image" />
         <div class="sing-up-form">
             <h1 class="sing-up-title">Register in to exclusive</h1>
             <p>Enter your details below</p>
-            <form asp-action="Register" method="post">
+            <form asp-action="Register" method="post" class="sing-up-form">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="FirstName" class="form-control" placeholder="First Name" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="LastName" class="form-control" placeholder="Last Name"/>
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="UserName" class="control-label"></label>
-                    <input asp-for="UserName" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="UserName" class="form-control" placeholder="User Name"/>
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="Email" class="form-control" placeholder="Email Address"/>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" type="password" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Address" class="control-label"></label>
-                    <input asp-for="Address" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="Address" class="form-control" placeholder="Address"/>
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="City" class="control-label"></label>
-                    <input asp-for="City" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="City" class="form-control" placeholder="City"/>
                     <span asp-validation-for="City" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="PostalCode" class="control-label"></label>
-                    <input asp-for="PostalCode" class="form-control" />
+                <div class="group-container">
+                    <input asp-for="PostalCode" class="form-control" placeholder="Postal Code"/>
                     <span asp-validation-for="PostalCode" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="group-container">
                     <input type="submit" value="Create" class="global-button" />
                 </div>
             </form>
         </div>
-        </section>
-    }
+    </section>
+}
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

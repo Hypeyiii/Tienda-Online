@@ -20,6 +20,7 @@
                 <th>Numero de pedido</th>
                 <th>Fecha del pedido</th>
                 <th>Estado</th>
+                <th>Direccion de envío</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -28,6 +29,7 @@
                 <td>@Model.IdOrder</td>
                 <td>@Model.OrderDate</td>
                 <td>@Model.State</td>
+                <td>@Model.User.Address, @Model.User.City, @Model.User.PostalCode</td>
                 <td>@Model.Total.ToString("C")</td>
             </tr>
         </tbody>

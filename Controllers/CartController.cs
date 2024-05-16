@@ -231,6 +231,8 @@ namespace Tienda_Online
 
                 Response.Cookies.Delete("cart");
 
+                ViewBag.User = _context.User.Find(userID);
+
                 ViewBag.OrderDetails = _context.OrderDetails.Where(od => od.IdOrder == order.IdOrder).ToList();
 
 
@@ -238,7 +240,6 @@ namespace Tienda_Online
             }
             catch (HttpException e)
             {
-                ;
                 return (IActionResult)e;
             }
         }
@@ -246,6 +247,8 @@ namespace Tienda_Online
         public IActionResult MyOrders()
         {
             var userID = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
+
+            ViewBag.User = _context.User.Find(userID);
 
             var orders = _context.Orders.Where(o => o.UserID == userID).ToList();
 
@@ -255,6 +258,12 @@ namespace Tienda_Online
         public async Task<IActionResult> MyOrderDetails(int id)
         {
             var order = await _context.Orders.FindAsync(id);
+
+            var userID = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
+
+            ViewBag.User = _context.User.Find(userID);
+
+            ViewBag.Order = _context.Orders.Find(id);
 
             if (order != null)
             {
@@ -271,6 +280,48 @@ namespace Tienda_Online
             }
         }
 
+        public async Task<IActionResult> EditMyOrderDetails(int id, [Bind("IdOrder,IdProduct,Quantity,Price")] Order_Details orderDetails)
+        {
+            if (id != orderDetails.IdOrder)
+            {
+                return NotFound();
+            }
+            var order = await _context.Orders.FindAsync(id);
+
+            if (order != null)
+            {
+                var existingOrderDetails = _context.OrderDetails.Find(orderDetails.IdOrder, orderDetails.IdProduct);
+
+                if (existingOrderDetails != null)
+                {
+                    existingOrderDetails.Quantity = orderDetails.Quantity;
+                    existingOrderDetails.Price = orderDetails.Price;
+                }
+                try
+                {
+                    _context.Update(existingOrderDetails);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OrderDetailsExists(orderDetails.IdOrder))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return View(orderDetails);
+            }
+            return View(orderDetails);
+        }
+
+        private bool OrderDetailsExists(int idOrder)
+        {
+            return _context.OrderDetails.Any(e => e.IdOrder == idOrder);
+        }
 
         public IActionResult DeleteOrder(int id)
         {

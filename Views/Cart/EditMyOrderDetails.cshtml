@@ -1,0 +1,52 @@
+@using System.Security.Claims
+@{
+    ViewData["Title"] = "Edit My Order Details";
+    var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var subtotal = Model.Quantity * Model.Product.ProductPrice;
+}
+@model Order_Details
+
+<div class="section-page">
+    <a href="/" class="home-text">Home</a>
+    <a>/</a>
+    <a class="page-text">Edit My Order Details</a>
+</div>
+
+<section class="details">
+    <div class="account-navigate">
+        <h4>My Account</h4>
+        <a asp-controller="Users" asp-action="Details" asp-route-id="@UserID">Details of my profile</a>
+        <a asp-controller="Users" asp-action="Edit" asp-route-id="@UserID">Edit my profile</a>
+        <h4>My orders</h4>
+        <a asp-controller="Cart" asp-action="MyOrders" asp-route-id="@UserID">My Orders</a>
+    </div>
+    <div class="account-details">
+        <h3 class="account-title">Details of order</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a asp-controller="Home" asp-action="ProductDetails" asp-route-id="@Model.IdProduct"
+                            class="table-image">
+                            <img src="~/img/product-@Model.Product.ProductImage"
+                                alt="Product Image @Model.Product.ProductName">
+                        </a>
+                    </td>
+                    <td>@Model.Product.ProductName</td>
+                    <td>@Model.Quantity</td>
+                    <td>@Model.Product.ProductPrice.ToString("C")</td>
+                    <td>@subtotal.ToString("C")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

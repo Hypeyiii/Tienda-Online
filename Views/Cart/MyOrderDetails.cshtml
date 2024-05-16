@@ -5,10 +5,15 @@
 }
 @model IEnumerable<Tienda_Online.Models.Order_Details>
 
-<div class="section-page">
-    <a href="/" class="home-text">Home</a>
-    <a>/</a>
-    <a class="page-text">My Order Details</a>
+<div class="account-section">
+    <div class="section-page">
+        <a href="/" class="home-text">Home</a>
+        <a>/</a>
+        <a class="page-text">Order details</a>
+    </div>
+    <div>
+        Welcome! <span class="user">@ViewBag.User.UserName</span>
+    </div>
 </div>
 <section class="details">
     <div class="account-navigate">
@@ -19,7 +24,7 @@
         <a asp-controller="Cart" asp-action="MyOrders" asp-route-id="@UserID">My Orders</a>
     </div>
     <div class="account-details">
-        <h3 class="account-title">Details of order</h3>
+        <h3 class="account-title">Details of order #@ViewBag.Order.IdOrder</h3>
         <table>
             <thead>
                 <tr>

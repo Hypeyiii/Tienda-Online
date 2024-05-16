@@ -1,10 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
+
+    @{
+        var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tienda Online</title>
+    <title>Sakura Store - Proyecto</title>
+    <link rel="shortcut icon" href="~/img/Logo.jpg">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -30,9 +36,14 @@
         </div>
         <div class="item-footer">
             <h2>Account</h2>
-            <a asp-controller="Home" asp-action="Account">My Account</a>
-            <a asp-controller="Home" asp-action="Cart">Cart</a>
-            <a asp-controller="Home" asp-action="Wishlist">Wishlist</a>
+            @if(User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Users" asp-action="Details" asp-route-id="@UserID">My Account</a>
+            }
+            else{
+                <a asp-controller="Account" asp-action="Login">My Account</a>
+            }
+            <a asp-controller="Cart" asp-action="Index">Cart</a>
             <a asp-controller="Home" asp-action="">Shop</a>
         </div>
         <div class="item-footer">

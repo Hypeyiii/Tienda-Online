@@ -64,10 +64,10 @@ else
                     <input type="hidden" name="id" value="@item.ProductID" />
                 </form>
                 <div>
-                    <h1 class="price">$@item.ProductPrice.ToString("C")</h1>
+                    <h1 class="price">@item.ProductPrice.ToString("C")</h1>
                 </div>
                 <div>
-                    <h1 class="price">$@subtotal.ToString("C")</h1>
+                    <h1 class="price">@subtotal.ToString("C")</h1>
                 </div>
             </div>
         }
@@ -86,7 +86,7 @@ else
             <h6>Cart total</h6>
             <div class="total-list">
                 <p>Subtotal:</p>
-                <p id="subtotal">$@Model.Cart.Total MX</p>
+                <p id="subtotal">@Model.Cart.Total.ToString("C") MX</p>
             </div>
             <div class="total-list">
                 <p>Shipping:</p>
@@ -96,7 +96,7 @@ else
                 <p>Total:</p>
                 <p id="total">$@Model.Cart.Total MX</p>
             </div>
-            <form asp-controller="Cart" asp-action="SuccessWithPaypal" method="post">
+            <form asp-controller="Cart" asp-action="SuccessWithPaypal" method="post" style="display: flex; justify-content: center; align-content: center;">
                 <input type="hidden" name="total" value="@Model.Cart.Total" />
                 <button type="submit" class="global-button">Comprar</button>
             </form>
